@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Metadados básicos do documento -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endless Green Monitor</title>
+    <meta name="description" content="Dashboard de análise ambiental da Endless Green Technologies">
+    <meta name="author" content="Endless Green Technologies">
+    
+    <!-- Importação da fonte 'Inter' do Google Fonts para um design moderno -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Estilos CSS embutidos na página -->
+    <style>
+        /* * VARIÁVEIS GLOBAIS DE ESTILO (CSS Variables)
+         * Centraliza as cores e fontes do projeto, facilitando a manutenção do design.
+         * Alterar um valor aqui reflete em toda a página.
+        */
+        :root {
+            --primary-color: #059669; /* Verde Esmeralda (cor principal para elementos ativos) */
+            --secondary-color: #047857; /* Verde mais escuro para textos e destaques */
+            --accent-color: #a7f3d0; /* Verde bem claro para hover e detalhes */
+            --background-color: #f0fdfa; /* Fundo da página com um tom de verde muito leve */
+            --text-color: #1f2937; /* Cor do texto principal para garantir boa legibilidade */
+            --card-bg: #ffffff; /* Fundo branco para os cards e seções de conteúdo */
+            --border-color: #d1fae5; /* Cor da borda, em harmonia com a paleta verde */
+            --shadow-color: rgba(0, 0, 0, 0.08); /* Sombra suave para dar profundidade aos elementos */
+            --font-family: 'Inter', sans-serif; /* Fonte principal do projeto */
+        }
+
+        /* Reset e Estilos Globais */
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Estilos do Cabeçalho */
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            flex-wrap: wrap; /* Permite que os itens quebrem para a linha de baixo em telas menores */
+            gap: 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+        }
+
+        .title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 0;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .info-badges {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+
+        .badge-icon {
+            height: 18px;
+            width: 18px;
+            margin-right: 8px;
+        }
+
+        /* Estilos do Sistema de Abas */
+        .tabs {
+            width: 100%;
+        }
+
+        .tab-buttons {
+            display: flex;
+            justify-content: flex-start;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px var(--shadow-color);
+            padding: 5px;
+            margin-bottom: 25px;
+            overflow-x: auto; /* Permite rolar horizontalmente em telas pequenas */
+            -ms-overflow-style: none;  /* Oculta a barra de rolagem no IE e Edge */
+            scrollbar-width: none;  /* Oculta a barra de rolagem no Firefox */
+        }
+        
+        .tab-buttons::-webkit-scrollbar {
+            display: none;  /* Oculta a barra de rolagem no Chrome, Safari e Opera */
+        }
+
+        .tab-button {
+            flex-shrink: 0; /* Impede que os botões encolham */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            transition: all 0.3s ease;
+            gap: 8px;
+        }
+
+        .tab-button:hover {
+            background-color: #d1fae5;
+            color: var(--primary-color);
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-icon {
+            height: 18px;
+            width: 18px;
+        }
+
+        .tab-content {
+            display: none; /* Todas as abas começam escondidas */
+            animation: fadeIn 0.5s;
+            background-color: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+        }
+
+        .tab-content.active {
+            display: block; /* A aba ativa é exibida */
+        }
+
+        /* Animação para suavizar a transição entre abas */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Estilos para o conteúdo de placeholder dentro das abas */
+        .content-placeholder {
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #a1a1aa;
+            font-style: italic;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+        }
+
+        /* Estilos do Rodapé */
+        .main-footer-container {
+            margin-top: 40px;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6b7280;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid var(--border-color);
+            border-radius: 10px;
+        }
+        .main-footer-container p {
+            margin: 5px 0;
+        }
+
+        /* Estilos para Responsividade (telas menores) */
+        @media (max-width: 768px) {
+            .main-header, .logo-container {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            .info-badges {
+                justify-content: flex-start;
+                width: 100%;
+            }
+            .tab-buttons {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Container principal que centraliza o conteúdo -->
+    <div class="container">
+        
+        <!-- CABEÇALHO DA PÁGINA -->
+        <header class="main-header">
+            <!-- Seção do Logo e Título -->
+            <div class="logo-container">
+                <img src="https://i.imgur.com/k2A2w4v.png" alt="Logo Endless Green Technologies" class="logo">
+                <div>
+                    <h1 class="title">Endless Green Monitor</h1>
+                    <p class="subtitle">Dashboard de análise ambiental baseado em dados do CAR</p>
+                </div>
+            </div>
+            <!-- Badges com informações rápidas -->
+            <div class="info-badges">
+                <div class="badge">
+                    <img src="https://i.imgur.com/5u9b5pA.png" alt="Ícone de Bioma" class="badge-icon">
+                    <span>Mata Atlântica</span>
+                </div>
+                <div class="badge">
+                    <img src="https://i.imgur.com/TRa2d3s.png" alt="Ícone de Calendário" class="badge-icon">
+                    <span>Última Atualização: Jul 2025</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO PRINCIPAL COM SISTEMA DE ABAS -->
+        <main>
+            <div class="tabs">
+                <!-- Botões que controlam a visualização das abas -->
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="eixo1">
+                        <img src="https://i.imgur.com/mOKsH6G.png" alt="Ícone de pino de mapa" class="tab-icon">
+                        Informações Gerais
+                    </button>
+                    <button class="tab-button" data-tab="eixo2">
+                        <img src="https://i.imgur.com/5u9b5pA.png" alt="Ícone de pinheiro" class="tab-icon">
+                        Cobertura Vegetal
+                    </button>
+                    <button class="tab-button" data-tab="eixo3">
+                        <img src="https://i.imgur.com/J3hL9vJ.png" alt="Ícone de montanha" class="tab-icon">
+                        Recursos Hídricos
+                    </button>
+                    <button class="tab-button" data-tab="eixo4">
+                        <img src="https://i.imgur.com/S6B4r3d.png" alt="Ícone de folha" class="tab-icon">
+                        Clima
+                    </button>
+                    <button class="tab-button" data-tab="eixo5">
+                        <img src="https://i.imgur.com/5vC9N7T.png" alt="Ícone de cifrão" class="tab-icon">
+                        Avaliação Econômica
+                    </button>
+                    <button class="tab-button" data-tab="eixo6">
+                        <img src="https://i.imgur.com/Jk3bA2e.png" alt="Ícone de usuários" class="tab-icon">
+                        Avaliação Social
+                    </button>
+                    <button class="tab-button" data-tab="glossario">
+                       <img src="https://i.imgur.com/7bN3x2d.png" alt="Ícone de livro" class="tab-icon">
+                        Glossário
+                    </button>
+                </div>
+
+                <!-- Painéis de Conteúdo para cada Aba -->
+                <div id="eixo1" class="tab-content active">
+                    <h2>Eixo 1: Informações Gerais</h2>
+                    <div class="content-placeholder">
+                        <p>O conteúdo do Eixo 1, com mapas e dados da propriedade, será inserido aqui.</p>
+                    </div>
+                </div>
+                <div id="eixo2" class="tab-content">
+                    <h2>Eixo 2: Cobertura Vegetal</h2>
+                     <div class="content-placeholder">
+                        <p>Gráficos e análises sobre a vegetação, APP e Reserva Legal serão inseridos aqui.</p>
+                    </div>
+                </div>
+                <div id="eixo3" class="tab-content">
+                    <h2>Eixo 3: Recursos Hídricos</h2>
+                     <div class="content-placeholder">
+                        <p>Dados sobre rios, nascentes e qualidade da água serão inseridos aqui.</p>
+                    </div>
+                </div>
+                 <div id="eixo4" class="tab-content">
+                    <h2>Eixo 4: Condições Climáticas</h2>
+                     <div class="content-placeholder">
+                        <p>Gráficos de temperatura, precipitação e outras análises climáticas serão inseridos aqui.</p>
+                    </div>
+                </div>
+                 <div id="eixo5" class="tab-content">
+                    <h2>Eixo 5: Avaliação Econômica</h2>
+                     <div class="content-placeholder">
+                        <p>Análises de valoração de carbono e rentabilidade da propriedade serão inseridas aqui.</p>
+                    </div>
+                </div>
+                 <div id="eixo6" class="tab-content">
+                    <h2>Eixo 6: Avaliação Social</h2>
+                     <div class="content-placeholder">
+                        <p>Mapas e dados sobre unidades de conservação, terras indígenas e assentamentos serão inseridos aqui.</p>
+                    </div>
+                </div>
+                 <div id="glossario" class="tab-content">
+                    <h2>Glossário</h2>
+                     <div class="content-placeholder">
+                        <p>Definições de termos técnicos utilizados no relatório serão inseridas aqui.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- RODAPÉ DA PÁGINA -->
+        <footer class="main-footer-container">
+            <p><strong>Disclaimer:</strong> Este é um relatório piloto não comercial do projeto da startup Endless Green Technologies (INOVA/UNICAMP), apenas para fins de teste/validação. Nenhuma garantia ou uso comercial é permitido.</p>
+            <p><strong>Dados:</strong> Baseado em dados reais extraídos do Cadastro Ambiental Rural (CAR) para fins de demonstração.</p>
+        </footer>
+    </div>
+
+    <!-- Script JavaScript para a funcionalidade das abas -->
+    <script>
+        // Aguarda o carregamento completo do conteúdo da página para executar o script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleciona todos os botões e painéis de conteúdo das abas
+            const tabs = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // Adiciona um evento de clique a cada botão de aba
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // 1. Remove a classe 'active' de todos os botões e conteúdos
+                    //    Isso garante que apenas a aba selecionada fique visível.
+                    tabs.forEach(item => item.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // 2. Adiciona a classe 'active' ao botão clicado e ao seu conteúdo correspondente
+                    const target = document.querySelector(`#${tab.dataset.tab}`);
+                    tab.classList.add('active');
+                    if (target) {
+                        target.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
